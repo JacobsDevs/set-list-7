@@ -12,7 +12,7 @@ RSpec.describe Playlist, type: :model do
     # Joins #1
     describe "Join problem" do
       it "Get a list of unique names for the artists that have songs with a length greater than 400. " do
-        query = # write your .joins query here! 
+				query = Artist.joins(:songs).where("songs.length > 400").distinct.pluck("artists.name")
 
         expect(query.sort).to eq(["Caamp", "LCD Soundsystem", "Prince", "Run The Jewels"])
       end
@@ -21,12 +21,12 @@ RSpec.describe Playlist, type: :model do
 
     # Joins #2
     describe "Spicy Join" do
-      xit "Get the names of all Artists from the Summer Rewind Playlist. " do
+      it "Get the names of all Artists from the Summer Rewind Playlist. " do
         # Hint: Use the @summer_rewind playlist for this query. 
 
-        query = # write your .joins query here!
+        query = Artist.joins(songs: :playlists).where("playlist_id = #{@summer_rewind.id}").pluck("artists.name")
 
-        expect(query.sort).to eq(["Prince", "Billie Eilish"])
+        expect(query.sort).to eq(["Prince", "Billie Eilish"].sort)
       end
     end
   end
